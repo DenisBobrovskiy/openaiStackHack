@@ -1,0 +1,62 @@
+
+.middleContainer{
+    /* height:1100px; */
+    background-color: rgb(58, 58, 58);;
+    display:flex;
+    flex-direction: column;
+    padding-left:100px;
+    padding-right:100px;
+    align-items: center;
+}
+
+.selectionPanel{
+    background-color: rgb(0, 0, 0);
+    border:2px solid rgb(201, 110, 50);
+    height:500px;
+    /* width:600px; */
+    width:100%;
+    border-radius:15px;
+    margin-bottom:50px;
+    margin-top:20px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.resultsPanel{
+    background-color: rgb(73, 73, 73);
+    border:2px solid rgb(201, 110, 50);
+    height:500px;
+    width:100%;
+    border-radius:15px;
+}
+
+.imageTitleContainer{
+    color:orange;
+    width:100px;
+    height:100px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    position:relative;
+}
+
+.imageTitleContainerIcon{
+    position:absolute;
+    transform:scale(2.5);
+}
+
+.imageTitleContainerQuestion{
+    position:absolute;
+    right:-5px;;
+    top:7px;
+    cursor:pointer;
+}
+
+.foodSelectionContainer{
+    background-color: white;
+    border-radius:15px;
+    width:70%;
+    height:200px;
+    border:2px solid rgb(201, 110, 50);
+}

@@ -1,0 +1,57 @@
+
+.mainContainer{
+    display:flex;
+    align-items: center;
+    width:100%;
+    height:110px;
+    background-color: black;
+    color:white;
+}
+
+.mainLogo {
+    margin-left:50px;
+}
+
+.buttonContainer {
+    display:flex;
+    align-items: center;
+    width:200px;
+    font-size:30px;
+    margin-left:100px;
+    cursor:pointer;
+    transition:0.5s;
+}
+
+.buttonContainerIcon {
+    margin-right:20px;
+    transform: scale(2);
+    color:#D68849;
+}
+
+.buttonContainer:hover {
+    color:#da846e;
+}
+
+.hoverUnderlineAnimation {
+  display: inline-block;
+  position: relative;
+  /* color: #0087ca; */
+}
+
+.hoverUnderlineAnimation::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 3px;
+  bottom: -5px;
+  left: 0;
+  background-color: #D68849;
+  transform-origin: bottom right;
+  transition: transform 0.5s ease-out;
+}
+
+.hoverUnderlineAnimation:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
