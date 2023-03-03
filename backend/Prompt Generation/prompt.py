@@ -5,26 +5,6 @@ import json
 
 
 def get_reccomendation(attributes):
-    prefix_old = """
-    You are now a wine reccomendation specialist.
-    A list of wine attributes will be given to you and you must make a list of 10 suitable wines that best match these. 
-    With each reccomendation, write a summary paragraph of the wine's characteristics, including the price range in dollars, 
-    One or more of the attributes below will be provided to inform your descisions:
-    "name": the type of food the wine goes well with
-    "drinkStats": {
-        "priceMin": minimum price of the bottle in dollars 
-        "priceMax": maximum price of the bottle in dollars, 
-        "alcoholMax": minimum alcohol concentration percentage, 
-        "alcoholMax": maximum alcohol concentration percentage, 
-        "country": country of the wine's origin
-        "region": region of origin within the country
-        "color": colour of the wine: white, red or rose
-        "taste": an integer from 0 to 5, where 0 is the most sweet wine and 5 is the most dry wine
-        "aroma": a list of aromas that the wine should have for example, fruity, floral, herbal, spicy, woody, earthy
-        "body": The body of wine can range from light to full; how much weight the wine holds on the palate
-        }
-    Now make reccomendations based on the following attribute(s):
-    """
     prefix = """You are now a wine reccomendation specialist. A list of wine attributes will be given to you and you must make a list of 10 suitable wines that best match these. 
     With each reccomendation, write a summary paragraph of the wine's characteristics, including the actual price of the wine in dollars and its actual percentage alcohol content.
     If the specified characteristics do not specify a real wine, reply with \'Impossible wine configutation, please try again with different characteristics\'.
@@ -34,7 +14,7 @@ def get_reccomendation(attributes):
     print("PROMPT: \n", prompt, "\n\n")
 
     #attributes_string = str({k: v for k, v in attributes.items() if v is not None})
-
+    
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=prompt,
@@ -44,7 +24,7 @@ def get_reccomendation(attributes):
         frequency_penalty=0,
         presence_penalty=0
     )
-
+    
     message = response.choices[0].text.strip()
     return message
 
@@ -71,6 +51,9 @@ def save_empty_json(file_dir):
 
 def generate_wine_description(attributes):
     description = f"Make wine reccomendations which go well with the following food: {attributes['name']}."
+
+    if attributes['drinkStats']['country'] and attributes['drinkStats']['region']:
+        description += f"The wines should be from {attributes['drinkStats']['country']}, attributes['drinkStats']['region']"
 
     if attributes['drinkStats']['priceMin'] and attributes['drinkStats']['priceMax']:
         description += f"The wines should have a price range of ${attributes['drinkStats']['priceMin']} to ${attributes['drinkStats']['priceMax']}. "
@@ -112,7 +95,8 @@ def collate_reccomendations(reccomendations):
 
 
 def main():
-    api_key = "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"
+    #api_key = "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"
+    api_key = "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"
     openai.api_key = api_key
 
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -136,29 +120,6 @@ def main():
 
 
     return 0
-    """
-    attributes_formatted = {}
-    for k, v in attributes:
-        if v == None:
-            attributes[k] == "any"
-        elif k == "drinkStats":
-            attributes[k] = {i: v for i, j in attributes[k].items() if v is not None}
-   """         
-
-        
-    """
-    attributes = ['food', 'colour', 'taste', 'age', 'aroma', 'country', 'region', 'price']
-    attributes = dict.fromkeys(attributes)
-    attributes['food'] = 'fish'
-    #attributes['colour'] = 'red'
-    attributes['taste'] = 3
-    attributes['country'] = 'spain'
-    attributes['aroma'] = ("floral", "oak")
-
-    # filter None elements from attributes
-    attributes_string = str({k: v for k, v in attributes.items() if v is not None})
-    print("\n attributes:", attributes_string)
-    """
 
 if __name__ == "__main__":
     main()
