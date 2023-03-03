@@ -17,7 +17,7 @@ with open('winemag-data.jsonl', 'w') as jsonl_file:
                 country = row['country']
                 region = row['region']
                 description = row['description']
-                prompt = f"This wine from {region}, {country} has an alcohol content of {alcohol} and costs {price}. {description}"
+                prompt = f"This wine from {region}, {country} has an alcohol content of {alcohol} and costs {price}. {description}\n\n###\n\n"
                 completion = row['title']
                 data = {'prompt': prompt, 'completion': completion}
                 jsonl_file.write(json.dumps(data) + '\n')
