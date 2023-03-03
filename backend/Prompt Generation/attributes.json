@@ -1,0 +1,1 @@
+{"name": "foodOne", "drinkStats": {"priceMin": 30, "priceMax": 50, "alcoholMax": 16, "country": "France", "region": "Bordeaux", "color": "Red", "taste": 0, "aroma": ["floral", "fruity"], "body": "medium"}}
