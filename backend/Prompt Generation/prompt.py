@@ -5,7 +5,7 @@ import json
 
 
 def get_reccomendation(attributes):
-    prefix = """You are now a wine reccomendation specialist. A list of wine attributes will be given to you and you must make a list of 10 suitable wines that best match these. 
+    prefix = """You are now a wine reccomendation specialist. A list of wine attributes will be given to you and you must make a list of 5 suitable wines that best match these. 
     With each reccomendation, write a summary paragraph of the wine's characteristics, including the actual price of the wine in dollars and its actual percentage alcohol content.
     If the specified characteristics do not specify a real wine, reply with \'Impossible wine configutation, please try again with different characteristics\'.
     Now make reccomendations based on the following attribute(s):\n"""
@@ -19,7 +19,7 @@ def get_reccomendation(attributes):
         model="text-davinci-003",
         prompt=prompt,
         temperature=0.7,
-        max_tokens=1024,
+        max_tokens=512,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0
@@ -90,8 +90,21 @@ def generate_wine_description(attributes):
     return description
 
 def collate_reccomendations(reccomendations):
+    prefix = """Use all of these reccomendations to collate a list of wines that go well with mulitple of the foods:"""
+
     # combine reccomendations into a single menu
-    return reccomendations
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt= reccomendations + prefix,
+        temperature=0.7,
+        max_tokens=1024,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0
+    )
+    
+    message = response.choices[0].text.strip()
+    return message
 
 
 def main():
@@ -104,7 +117,7 @@ def main():
     attributes_files = ["attributes_fish.json", "attributes_cheese.json"]
 
     # get reccomendations for each file
-    reccomendations = []
+    reccomendations = ""
     for file_name in attributes_files:
         file_path = os.path.join(base_dir, "backend/Prompt Generation", file_name)
         #save_empty_json(file_path)
@@ -117,25 +130,18 @@ def main():
 
         # create description and get reccomendations
         description = generate_wine_description(attributes)
-        reccomendations.append(get_reccomendation(str(description)))
-        print("RESPONSE:\n\n", reccomendations)
+        reccomendation = get_reccomendation(str(description))
+        reccomendations += "\n\nReccomendations for food:" + attributes['name'] + "\n" + reccomendation
+        #print("RESPONSE:\n\n", reccomendation)
+
+    print("\n\n\n")
+    print(reccomendations)            
 
     
     # reccomend based on all reccomendations (not done yet)
     collated_reccomendations = collate_reccomendations(reccomendations)
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=prompt,
-        temperature=0.7,
-        max_tokens=1024,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0
-    )
-    
-    message = response.choices[0].text.strip()
-    return message
-
+    print("\n\nCOLLATED MENU:\n")
+    print(collated_reccomendations)
 
     return 0
 
