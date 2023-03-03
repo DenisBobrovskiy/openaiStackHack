@@ -1,0 +1,19 @@
+{
+    "name": "fish",
+    "drinkStats": {
+        "priceMin": 20,
+        "priceMax": 40,
+        "alcoholMin": 10,
+        "alcoholMax": 14,
+        "country": "China",
+        "region": null,
+        "color": "white",
+        "taste": null,
+        "aroma": [
+            "nutty",
+            "fruity",
+            "spicy"
+        ],
+        "body": "light"
+    }
+}

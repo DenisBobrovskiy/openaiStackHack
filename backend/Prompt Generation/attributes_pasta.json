@@ -1,0 +1,17 @@
+{
+    "name": "spaghetti bolognese",
+    "drinkStats": {
+        "priceMin": null,
+        "priceMax": 100,
+        "alcoholMin": null,
+        "alcoholMax": null,
+        "country": "Italy",
+        "region": null,
+        "color": "red",
+        "taste": null,
+        "aroma": [
+            null
+        ],
+        "body": "medium"
+    }
+}

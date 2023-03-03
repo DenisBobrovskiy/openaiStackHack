@@ -1,0 +1,18 @@
+{
+    "name": "GRAND CRU BOARD, Selection of the best! 3 charcuterie, 3 cheeses, served with pickles,chutney and artisan bread",
+    "drinkStats": {
+        "priceMin": null,
+        "priceMax": 12,
+        "alcoholMin": 13,
+        "alcoholMax": null,
+        "country": null,
+        "region": null,
+        "color": null,
+        "taste": 2,
+        "aroma": [
+            "nutty",
+            "fruity"
+        ],
+        "body": null
+    }
+}
