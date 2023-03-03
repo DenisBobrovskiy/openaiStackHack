@@ -1,6 +1,23 @@
+.form-control:focus, .form-control:active {
+    background: transparent;
+}
+
+input{
+    all:unset;
+}
+
+.mainMainContainer{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width:70%;
+    color:white;
+    height:auto;
+}
+
 .mainContainer{
     display:flex;
-    width:70%;
+    width:100%;
 }
 
 .menuPanel{
@@ -45,21 +62,152 @@
 }
 
 .menuItem{
-    height:30px;
+    height:40px;
     border-radius: 10px;
     background-color: rgb(255, 145, 0);
     display:flex;
     align-items: center;
     margin-top:5px;
     margin-right:10px;
-    padding-right:5px;
-    padding-left:5px;
+    padding-right:7px;
+    padding-left:7px;
     cursor:pointer;
     font-weight:800;
     color:black;
     transition:0.3s;
+    font-size:20px;
+    box-shadow: 5px 5px 5px #aaaaaa;
+}
+
+.newItemInput{
+    align-items:center;
+    transition:0.5s;
+    border-radius:17px;
+}
+
+.newItemInput:hover{
+    border-radius:8px;
+}
+
+.activeMenuItem{
+    background-color: rgb(255, 81, 0);
+}
+
+.menuItemIcon{
+    margin-right:4px;
 }
 
 .menuItem:hover{
     background-color:rgb(255, 81, 0);
+}
+
+.optionsMenu {
+    margin-top:30px;
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.buttonStyle {
+    background-color: #dd8613;
+}
+
+.buttonStyle:hover{
+    background-color:#dd5d13;
+}
+
+.priceRangeContainer{
+    width:70%;
+    display:flex;
+    /* justify-content: center; */
+    align-items: center;
+    margin-top:60px;
+    color:orange;
+    position:relative;
+}
+
+.priceRangeText{
+    font-size:20px;
+    font-weight:800;
+    margin-right:20px;
+}
+
+.priceRangeIcon{
+    margin-right:10px;
+    transform: scale(2);
+}
+
+.disabledRangeContainer{
+    color:gray;
+}
+
+.abvRangeIcon{
+    margin-right:20px;
+    transform: scale(2);
+}
+
+.checkboxContainer{
+    background-color:white;
+    width:18px;
+    border-radius:5px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    height:18px;
+    margin-right:20px;
+}
+
+.checkboxContainerWine{
+    background-color:white;
+    width:18px;
+    border-radius:5px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    height:18px;
+    margin-top:10px;
+}
+
+.wineIconContainer{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right:40px;
+    margin-left:20px;
+    position:relative
+}
+
+.wineQuestionIcon{
+    position:absolute;
+    top:-20px;
+    right:-20px;
+    transform: scale(0.8);
+}
+
+.wineIcon{
+    transform: scale(1.6);
+}
+
+.disabledIcon{
+    color:gray;
+}
+
+.infoIcon2{
+    position:absolute;
+    top:-15px;
+    left:60px;
+    cursor:pointer;
+}
+
+.infoIcon3{
+    position:absolute;
+    top:-20px;
+    left:60px;
+    cursor:pointer;
+}
+
+.submitButtonContainer{
+    margin-top:60px;
 }

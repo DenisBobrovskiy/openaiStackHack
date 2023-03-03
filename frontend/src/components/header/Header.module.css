@@ -6,6 +6,7 @@
     height:110px;
     background-color: black;
     color:white;
+    position:relative;
 }
 
 .mainLogo {
@@ -15,7 +16,7 @@
 .buttonContainer {
     display:flex;
     align-items: center;
-    width:200px;
+    width:300px;
     font-size:30px;
     margin-left:100px;
     cursor:pointer;
@@ -25,7 +26,7 @@
 .buttonContainerIcon {
     margin-right:20px;
     transform: scale(2);
-    color:#D68849;
+    color:orange;
 }
 
 .buttonContainer:hover {
@@ -54,4 +55,41 @@
 .hoverUnderlineAnimation:hover::after {
   transform: scaleX(1);
   transform-origin: bottom left;
+}
+
+.aboutProjectContainer{
+    position:fixed;
+    width:500px;
+    height:600px;
+    background-color: black;
+    border-radius: 15px;
+    border:1px solid orange;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    z-index:100;
+    top:100px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.closeIcon{
+    position:absolute;
+    top:13px;
+    right:13px;
+    transform:scale(1.6);
+    color:orange;
+    cursor:pointer;
+    transition:0.5s;
+}
+
+.closeIcon:hover{
+    color:rgb(255, 102, 0);
+}
+
+.headerText{
+    font-size:36px;
+    margin-top:10px;
 }
