@@ -98,25 +98,43 @@ def main():
     #api_key = "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"
     api_key = "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"
     openai.api_key = api_key
-
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
-    file_name = "attributes_fish.json"
-    file_path = os.path.join(base_dir, "backend/Prompt Generation", file_name)
-    #save_empty_json(file_path)
-    try:
-        with open(file_path, 'r') as f:
-            attributes = json.load(f)
-    except FileNotFoundError:
-        print("no such file")
-        exit()
+    # specify attributes json files:
+    attributes_files = ["attributes_fish.json", "attributes_cheese.json"]
 
-    description = generate_wine_description(attributes)
+    # get reccomendations for each file
+    reccomendations = []
+    for file_name in attributes_files:
+        file_path = os.path.join(base_dir, "backend/Prompt Generation", file_name)
+        #save_empty_json(file_path)
+        try:
+            with open(file_path, 'r') as f:
+                attributes = json.load(f)
+        except FileNotFoundError:
+            print("no such file")
+            exit()
 
-    reccomendations = get_reccomendation(str(description))
-    print("RESPONSE:\n\n", reccomendations)
+        # create description and get reccomendations
+        description = generate_wine_description(attributes)
+        reccomendations.append(get_reccomendation(str(description)))
+        print("RESPONSE:\n\n", reccomendations)
 
-
+    
+    # reccomend based on all reccomendations (not done yet)
+    collated_reccomendations = collate_reccomendations(reccomendations)
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=prompt,
+        temperature=0.7,
+        max_tokens=1024,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0
+    )
+    
+    message = response.choices[0].text.strip()
+    return message
 
 
     return 0
