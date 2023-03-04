@@ -60,7 +60,8 @@
 .aboutProjectContainer{
     position:fixed;
     width:500px;
-    height:600px;
+    height:auto;
+    padding-bottom:20px;
     background-color: black;
     border-radius: 15px;
     border:1px solid orange;
@@ -87,9 +88,22 @@
 
 .closeIcon:hover{
     color:rgb(255, 102, 0);
+    color:#ffffff85;
 }
 
 .headerText{
     font-size:36px;
     margin-top:10px;
+}
+
+.aboutPanelText{
+    font-size:20px;
+    padding-right:10px;
+    padding-left:10px;
+}
+
+.apiKeyContainer{
+    border:1px orange solid;
+    border-radius: 15px;
+    padding:10px 10px 10px 10px;
 }

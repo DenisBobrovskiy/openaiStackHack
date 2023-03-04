@@ -110,7 +110,6 @@ def collate_reccomendations(reccomendations):
 def main():
     
     #api_key = "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"
-    api_key = "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"
     openai.api_key = api_key
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 

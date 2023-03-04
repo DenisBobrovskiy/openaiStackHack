@@ -8,6 +8,7 @@ import { Tooltip } from "@mui/material";
 import { Button, Slider, Checkbox, Menu, MenuItem, FormControl, InputLabel, Select } from "@mui/material";
 
 //IMAGES
+import SpaIcon from '@mui/icons-material/Spa';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
@@ -22,6 +23,15 @@ import InfoIcon from '@mui/icons-material/Info';
 import FlareIcon from '@mui/icons-material/Flare';
 import GradientIcon from '@mui/icons-material/Gradient';
 import ScatterPlotIcon from '@mui/icons-material/ScatterPlot';
+import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
+import HubIcon from '@mui/icons-material/Hub';
+import BlurOnIcon from '@mui/icons-material/BlurOn';
+import GrassIcon from '@mui/icons-material/Grass';
+import ForestIcon from '@mui/icons-material/Forest';
+import GroupWorkIcon from '@mui/icons-material/GroupWork';
+
+//SERVICES
+import { sendRequest, generateJSONFromFoodItems } from "../../services/api";
 
 //CUSTOM THEME
 const theme = createTheme({
@@ -48,7 +58,7 @@ export default function FoodMenu(props) {
     const southAfricaRegions = ['Stellenbosch', 'Franschhoek', 'Paarl', 'Constantia', 'Hemel-en-Aarde'];
 
 
-    const { values, setValues, selectedID, setSelectedID } = props; //Menu items, array of strings
+    const { values, setValues, selectedID, setSelectedID, setResultItems, resultWait, setResultWait, apiKey,setErrorMsg } = props; //Menu items, array of strings
     const [newItemText, setNewItemText] = useState(""); //Text in the new item input field
     const [isItemInputOpen, setIsItemInputOpen] = useState(false); //Is the new item input field open
 
@@ -78,9 +88,34 @@ export default function FoodMenu(props) {
     const [tanninRange, setTanninRange] = useState([0, 0]);
     const [tanninRangeUsed, setTanninRangeUsed] = useState(false);
 
+
+    {/* floral fruity spicy herbal woody */ }
+    const [aromas, setAromas] = useState([]);
+    const [aromasUsed, setAromasUsed] = useState(false);
+    const [floral, setFloral] = useState(false);
+    const [fruity, setFruity] = useState(false);
+    const [spicy, setSpicy] = useState(false);
+    const [herbal, setHerbal] = useState(false);
+    const [woody, setWoody] = useState(false);
+    const [earthy, setEarthy] = useState(false);
+
     // useEffect(() =>{
     //     setValues(["one", "two", "three", "four", "five","six"])
     // },[])
+
+    async function sendWineRequest() {
+        //Save current values
+        let foodItems = values;
+        if (selectedID != null) {
+            foodItems = setOptionValues();
+        }
+
+        //Format
+        let jsonObj = generateJSONFromFoodItems(foodItems);
+
+        //Send request
+        await sendRequest(jsonObj, setResultItems, setResultWait, setErrorMsg, apiKey);
+    }
 
     function updateRegions(countryName) {
         switch (countryName) {
@@ -158,6 +193,33 @@ export default function FoodMenu(props) {
         setAcidityRangeUsed(values[index].drinkStats.isAcidityUsed)
         setTanninRange([values[index].drinkStats.tanninMin, values[index].drinkStats.tanninMax])
         setTanninRangeUsed(values[index].drinkStats.isTanninUsed)
+
+        //Aromas
+        // console.log("getting aromas list")
+        // console.log(values[index].drinkStats.aromas)
+        setAromas(values[index].drinkStats.aromas);
+        setAromasUsed(values[index].drinkStats.isAromasUsed);
+        setFloral(false);
+        setFruity(false);
+        setSpicy(false);
+        setHerbal(false);
+        setWoody(false);
+        setEarthy(false);
+        for (let i = 0; i < values[index].drinkStats.aromas.length; i++) {
+            if (values[index].drinkStats.aromas[i] == "floral") {
+                setFloral(true)
+            } else if (values[index].drinkStats.aromas[i] == "fruity") {
+                setFruity(true)
+            } else if (values[index].drinkStats.aromas[i] == "spicy") {
+                setSpicy(true)
+            } else if (values[index].drinkStats.aromas[i] == "herbal") {
+                setHerbal(true)
+            } else if (values[index].drinkStats.aromas[i] == "woody") {
+                setWoody(true)
+            } else if (values[index].drinkStats.aromas[i] == "earthy") {
+                setEarthy(true)
+            }
+        }
     }
 
     function setOptionValues() {
@@ -184,8 +246,11 @@ export default function FoodMenu(props) {
         newValues[selectedID].drinkStats.tanninMin = tanninRange[0];
         newValues[selectedID].drinkStats.tanninMax = tanninRange[1];
         newValues[selectedID].drinkStats.isTanninUsed = tanninRangeUsed;
+        newValues[selectedID].drinkStats.aromas = aromas;
+        newValues[selectedID].drinkStats.isAromasUsed = aromasUsed;
 
         setValues(newValues);
+        return (newValues);
     }
 
     function removeItem(index) {
@@ -200,27 +265,29 @@ export default function FoodMenu(props) {
         newValues.push({
             name: foodName, drinkStats:
             {
-                priceMin:  0, //in dollars
+                priceMin: 0, //in dollars
                 priceMax: 0, //in dollars
                 isPriceUsed: false,
                 alcoholMin: 0,
                 alcoholMax: 0, //in percent
                 isAlcoholUsed: false,
                 country: "",
-                isCountryUsed:false,
+                isCountryUsed: false,
                 region: "",
-                isRegionUsed:false,
+                isRegionUsed: false,
                 color: "red",
-                isColorUsed:false,
+                isColorUsed: false,
                 sweetnessMin: 0,
                 sweetnessMax: 0,
-                isSweetnessUsed:false,
-                acidityMin:2,
-                acidityMax:2,
-                isAcidityUsed:false,
-                tanninMin:0,
-                tanninMax:0,
-                isTanninUsed:false
+                isSweetnessUsed: false,
+                acidityMin: 2,
+                acidityMax: 2,
+                isAcidityUsed: false,
+                tanninMin: 0,
+                tanninMax: 0,
+                isTanninUsed: false,
+                aromas: [],
+                isAromasUsed: false
             }
         });
         setValues(newValues);
@@ -270,6 +337,36 @@ export default function FoodMenu(props) {
 
     function enableItemInput() {
         setIsItemInputOpen(true);
+    }
+
+    //isAdding = true if adding, false if removing
+    function updateAromas(newAroma, isAdding) {
+        console.log("updating aromas");
+        console.log(isAdding);
+        let newValues = [...aromas];
+        if (newValues.length == 0 && isAdding) {
+            console.log("adding first entry");
+            newValues.push(newAroma);
+            setAromas(newValues);
+            return;
+        }
+        for (let i = 0; i < newValues.length; i++) {
+            if (newValues[i] == newAroma) {
+                if (!isAdding) {
+                    console.log("removing aroma");
+                    newValues.splice(i, 1);
+                } else {
+                    return;
+                }
+            }
+
+        }
+        //No match found. add
+        if (isAdding) {
+            console.log("adding aroma");
+            newValues.push(newAroma);
+        }
+        setAromas(newValues);
     }
 
     return (
@@ -561,10 +658,116 @@ export default function FoodMenu(props) {
                                 max={1000}
                             />
                         </div>
+                        <div className={classNames(styles.priceRangeContainer, { [styles.disabledRangeContainer]: !aromasUsed })}>
+                            <div className={styles.checkboxContainer}>
+                                <Checkbox
+                                    checked={aromasUsed}
+                                    onChange={() => { aromasUsed ? setAromasUsed(false) : setAromasUsed(true) }}
+                                // checked={isChecked}
+                                // onChange={handleCheckChange}
+                                />
+                            </div>
+                            <SpaIcon className={styles.abvRangeIcon} />
+                            <div className={styles.priceRangeText}>Aromas:</div>
+                            {/* <Tooltip arrow placement="right" title="Lighter bodied red wines can be found in the range of 100-150mg/L, while more full bodied reds can go up to 300-500
+                            mg/L. White wines will typically be much less at 50mg/L or lower"> */}
+                            {/* <InfoIcon className={styles.infoIcon3} /> */}
+                            {/* </Tooltip> */}
+                            <div className={styles.wineIconContainer}>
+                                <LocalFloristIcon className={styles.wineIcon} style={aromasUsed ? { color: "orange" } : { color: "gray" }} />
+                                {/* <Tooltip title="Red wine" placement="right" style={{ cursor: "pointer" }}>
+                                    <InfoIcon className={styles.wineQuestionIcon} />
+                                </Tooltip> */}
+                                {/* floral fruity spicy herbal spicy woody */}
+                                <div style={{ marginTop: 8, fontSize: 18 }}>floral</div>
+                                <div className={styles.checkboxContainerWine}>
+                                    <Checkbox
+                                        disabled={aromasUsed ? false : true}
+                                        checked={floral}
+                                        onChange={() => { updateAromas("floral", !floral); setFloral(!floral) }}
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.wineIconContainer}>
+                                <HubIcon className={styles.wineIcon} style={aromasUsed ? { color: "orange" } : { color: "gray" }} />
+                                {/* <Tooltip title="Red wine" placement="right" style={{ cursor: "pointer" }}>
+                                    <InfoIcon className={styles.wineQuestionIcon} />
+                                </Tooltip> */}
+                                {/* floral fruity spicy herbal spicy woody */}
+                                <div style={{ marginTop: 8, fontSize: 18 }}>fruity</div>
+                                <div className={styles.checkboxContainerWine}>
+                                    <Checkbox
+                                        disabled={aromasUsed ? false : true}
+                                        checked={fruity}
+                                        onChange={() => { updateAromas("fruity", !fruity); setFruity(!fruity) }}
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.wineIconContainer}>
+                                <BlurOnIcon className={styles.wineIcon} style={aromasUsed ? { color: "orange" } : { color: "gray" }} />
+                                {/* <Tooltip title="Red wine" placement="right" style={{ cursor: "pointer" }}>
+                                    <InfoIcon className={styles.wineQuestionIcon} />
+                                </Tooltip> */}
+                                {/* floral fruity spicy herbal spicy woody */}
+                                <div style={{ marginTop: 8, fontSize: 18 }}>spicy</div>
+                                <div className={styles.checkboxContainerWine}>
+                                    <Checkbox
+                                        disabled={aromasUsed ? false : true}
+                                        checked={spicy}
+                                        onChange={() => { updateAromas("spicy", !spicy); setSpicy(!spicy) }}
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.wineIconContainer}>
+                                <GrassIcon className={styles.wineIcon} style={aromasUsed ? { color: "orange" } : { color: "gray" }} />
+                                {/* <Tooltip title="Red wine" placement="right" style={{ cursor: "pointer" }}>
+                                    <InfoIcon className={styles.wineQuestionIcon} />
+                                </Tooltip> */}
+                                {/* floral fruity spicy herbal spicy woody */}
+                                <div style={{ marginTop: 8, fontSize: 18 }}>herbal</div>
+                                <div className={styles.checkboxContainerWine}>
+                                    <Checkbox
+                                        disabled={aromasUsed ? false : true}
+                                        checked={herbal}
+                                        onChange={() => { updateAromas("herbal", !herbal); setHerbal(!herbal) }}
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.wineIconContainer}>
+                                <ForestIcon className={styles.wineIcon} style={aromasUsed ? { color: "orange" } : { color: "gray" }} />
+                                {/* <Tooltip title="Red wine" placement="right" style={{ cursor: "pointer" }}>
+                                    <InfoIcon className={styles.wineQuestionIcon} />
+                                </Tooltip> */}
+                                {/* floral fruity spicy herbal spicy woody */}
+                                <div style={{ marginTop: 8, fontSize: 18 }}>woody</div>
+                                <div className={styles.checkboxContainerWine}>
+                                    <Checkbox
+                                        disabled={aromasUsed ? false : true}
+                                        checked={woody}
+                                        onChange={() => { updateAromas("woody", !woody); setWoody(!woody) }}
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.wineIconContainer}>
+                                <GroupWorkIcon className={styles.wineIcon} style={aromasUsed ? { color: "orange" } : { color: "gray" }} />
+                                {/* <Tooltip title="Red wine" placement="right" style={{ cursor: "pointer" }}>
+                                    <InfoIcon className={styles.wineQuestionIcon} />
+                                </Tooltip> */}
+                                {/* floral fruity spicy herbal spicy woody */}
+                                <div style={{ marginTop: 8, fontSize: 18 }}>earthy</div>
+                                <div className={styles.checkboxContainerWine}>
+                                    <Checkbox
+                                        disabled={aromasUsed ? false : true}
+                                        checked={earthy}
+                                        onChange={() => { updateAromas("earthy", !earthy); setEarthy(!earthy) }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 }
                 <div className={styles.submitButtonContainer}>
-                    <Button variant="contained" size="large">Generate wine list</Button>
+                    <Button variant="contained" size="large" onClick={() => { sendWineRequest() }}>Generate wine list</Button>
                 </div>
             </div>
         </ThemeProvider>

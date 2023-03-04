@@ -1,66 +1,130 @@
-
-.middleContainer{
+.middleContainer {
     /* height:1100px; */
     background-color: rgb(58, 58, 58);
-    display:flex;
+    display: flex;
     flex-direction: column;
-    padding-left:100px;
-    padding-right:100px;
+    padding-left: 100px;
+    padding-right: 100px;
     align-items: center;
-    background-image:url("../images/bg.jpg");
-    background-size:3000px 2000px;
+    background-image: url("../images/bg.jpg");
+    background-size: 3000px 2000px;
 }
 
-.selectionPanel{
+.selectionPanel {
     background-color: rgb(0, 0, 0);
-    border:2px solid rgb(201, 110, 50);
+    border: 2px solid rgb(201, 110, 50);
     /* height:500px; */
     /* width:600px; */
-    padding-bottom:50px;
-    width:100%;
-    border-radius:15px;
-    margin-bottom:50px;
-    margin-top:20px;
-    display:flex;
+    padding-bottom: 50px;
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 50px;
+    margin-top: 20px;
+    display: flex;
     flex-direction: column;
     align-items: center;
     box-shadow: 15px 15px 15px black;
 }
 
-.resultsPanel{
-    background-color: rgb(73, 73, 73);
-    border:2px solid rgb(201, 110, 50);
-    height:500px;
-    width:100%;
-    border-radius:15px;
+.resultsPanel {
+    /* background-color: rgb(73, 73, 73); */
+    background-color: rgb(0, 0, 0);
+    border: 2px solid rgb(201, 110, 50);
+    width: 100%;
+    min-height: 600px;
+    border-radius: 15px;
+    margin-bottom: 40px;
 }
 
-.imageTitleContainer{
-    color:orange;
-    width:100px;
-    height:100px;
-    display:flex;
+.imageTitleContainer {
+    color: orange;
+    width: 100px;
+    height: 100px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    position:relative;
+    position: relative;
 }
 
-.imageTitleContainerIcon{
-    position:absolute;
-    transform:scale(2.5);
+.imageTitleContainerIcon {
+    position: absolute;
+    transform: scale(2.5);
 }
 
-.imageTitleContainerQuestion{
-    position:absolute;
-    right:-5px;;
-    top:7px;
-    cursor:pointer;
+.imageTitleContainerQuestion {
+    position: absolute;
+    right: -5px;
+    ;
+    top: 7px;
+    cursor: pointer;
 }
 
-.foodSelectionContainer{
+.foodSelectionContainer {
     background-color: white;
-    border-radius:15px;
-    width:70%;
-    height:200px;
-    border:2px solid rgb(201, 110, 50);
+    border-radius: 15px;
+    width: 70%;
+    height: 200px;
+    border: 2px solid rgb(201, 110, 50);
+}
+
+.loaderContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin-top: 200px;
+}
+
+.noResultsContainer {
+    color: rgb(216, 142, 46);
+    font-size: 28px;
+    margin-top: 150px;
+}
+
+.wineResultContainer {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    font-size: 28px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding-left: 50px;
+}
+
+.wineResultContainerIndex {
+    font-size: 40px;
+    margin-right: 15px;
+    color: orange;
+}
+
+.descriptionContainer {
+    margin-left: 30px;
+    margin-right: 50px;
+    width: 40%;
+}
+
+.wineNameContainer {
+    width: 300px;
+    font-size: 30px;
+}
+
+.foodNameContainer {
+    width: 150px;
+}
+
+.wineIcon {
+    margin-right: 10px;
+    transform: scale(2);
+    color: "orange";
+}
+
+.errorMsgContainer{
+    color:red;
+    font-size:50px;
+    margin-top:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
