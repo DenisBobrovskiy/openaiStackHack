@@ -4,7 +4,6 @@ The AI Wine Sommelier App is a personalised wine recommendation app that uses th
 Getting Started
 
 To get started with the AI Wine Sommelier App, you can view a demo at https://denisbobrovskiy.github.io/DrinkGuru/. LabLab.ai project page at https://lablab.ai/event/openai-hackathon/ai-artisans/drinkguru.
-Features
 
 The AI Wine Sommelier App has several features that make it easy to find the perfect wine for any occasion. These features include:
 
